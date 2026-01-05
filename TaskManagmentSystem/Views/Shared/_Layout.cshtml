@@ -31,6 +31,8 @@
             </div>
 
             <!-- Center Section - Search -->
+            @if (User.Identity.IsAuthenticated)
+            {
             <div class="navbar-center">
                 <div class="search-container">
                     <i class="bi bi-search"></i>
@@ -38,6 +40,7 @@
                     <kbd class="search-shortcut">Ctrl+K</kbd>
                 </div>
             </div>
+            }
 
             <!-- Right Section -->
             <div class="navbar-right">
