@@ -240,9 +240,9 @@
 
     <!-- Main Content Area -->
     <main class="main-content" id="mainContent">
-        <div class="content-wrapper">
+        @* <div class="content-wrapper"> *@
             @RenderBody()
-        </div>
+        @* </div> *@
     </main>
 
     <!-- Overlay for mobile sidebar -->
@@ -629,9 +629,9 @@
             color: var(--primary-color);
         }
 
-            .sidebar-brand i {
+        .sidebar-brand i {
                 font-size: 1.5rem;
-            }
+        }
 
         .sidebar-close {
             display: flex;
@@ -661,6 +661,16 @@
 
         .sidebar-nav {
             flex: 1;
+        }
+
+        .sidebar-content {
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE & Edge */
+        }
+
+        .sidebar-content::-webkit-scrollbar {
+                display: none; /* Chrome, Safari */
         }
 
         .nav-section {
