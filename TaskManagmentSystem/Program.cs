@@ -63,6 +63,8 @@ namespace TaskManagmentSystem
             builder.Services.AddScoped<INotificationDispatcher, NotificationDispatcher>();
             builder.Services.AddScoped<IWorkSpaceRepository, WorkSpaceRepository>();
             builder.Services.AddScoped<IWorkSpaceService, WorkSpaceService>();
+            builder.Services.AddScoped<ITimeLogRepository, TimeLogRepository>();
+            builder.Services.AddScoped<ITimeLogService, TimeLogService>(); 
             builder.Services.AddScoped<ITeamAppUserRepository, TeamAppUserRepository>();
             builder.Services.AddScoped<ITeamRepository, TeamRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();

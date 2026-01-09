@@ -11,7 +11,7 @@ namespace TaskManagmentSystem.Models
         Yellow,
         Gray
     }
-    public class WorkSpace
+    public class TimeLog
     {
         public int Id { get; set; }
         public string Title { get; set; } = null!;

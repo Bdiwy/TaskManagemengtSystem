@@ -21,6 +21,6 @@ namespace TaskManagmentSystem.Models
         
         [ForeignKey("WorkSpace")]
         public int WorkSpaceId { get; set; }
-        public WorkSpace WorkSpace { get; set; }
+        public TimeLog WorkSpace { get; set; }
     }
 }

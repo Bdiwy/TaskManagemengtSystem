@@ -23,13 +23,13 @@ namespace TaskManagmentSystem.Srvices
             _teamAppUserService = teamAppUserService;
         }
 
-        public async Task<OperationResult<WorkSpace>> GetByIdAsync(int id)
+        public async Task<OperationResult<TimeLog>> GetByIdAsync(int id)
         {
             return await _workSpaceRepository.GetByIdAsync(id);
         }
         public async Task<OperationResult> CreateAsync(WorkSpaceViewModel workSpaceToCreate, string userId)
         {
-            var workSpace = new WorkSpace
+            var workSpace = new TimeLog
             {
                 Title = workSpaceToCreate.Title,
                 Description = workSpaceToCreate.Description,
@@ -45,7 +45,7 @@ namespace TaskManagmentSystem.Srvices
             if (!workSpaceResult.Succeeded)
                 return OperationResult.Failure("WorkSpace not found");
 
-            var workSpace = new WorkSpace
+            var workSpace = new TimeLog
             {
                 Title = workSpaceToUpdate.Title,
                 Description = workSpaceToUpdate.Description,
@@ -56,11 +56,11 @@ namespace TaskManagmentSystem.Srvices
         {
             return await _workSpaceRepository.DeleteAsync(id);
         }
-        public async Task<OperationResult<List<WorkSpace>>> GetForUserAsync(string userId)
+        public async Task<OperationResult<List<TimeLog>>> GetForUserAsync(string userId)
         {
             return await _workSpaceRepository.GetForUserAsync(userId);
         }
-        public async Task<OperationResult<List<WorkSpace>>> GetForTeamAsync(int teamId, string userId)
+        public async Task<OperationResult<List<TimeLog>>> GetForTeamAsync(int teamId, string userId)
         {
             return await _workSpaceRepository.GetForTeamAsync(teamId);
         }
