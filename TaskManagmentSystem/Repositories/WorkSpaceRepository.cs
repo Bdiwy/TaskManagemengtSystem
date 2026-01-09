@@ -19,14 +19,14 @@ namespace TaskManagmentSystem.Repositories
             _logger = logger;
         }
 
-        public async Task<OperationResult<WorkSpace>> GetByIdAsync(int id)
+        public async Task<OperationResult<TimeLog>> GetByIdAsync(int id)
         {
             var workSpace = await _context.WorkSpaces.FindAsync(id);
             if (workSpace == null)
-                return OperationResult<WorkSpace>.Failure("WorkSpace not found");
-            return OperationResult<WorkSpace>.Success(workSpace);
+                return OperationResult<TimeLog>.Failure("WorkSpace not found");
+            return OperationResult<TimeLog>.Success(workSpace);
         }
-        public async Task<OperationResult> CreateAsync(WorkSpace workSpace)
+        public async Task<OperationResult> CreateAsync(TimeLog workSpace)
         {
             _context.WorkSpaces.Add(workSpace);
             try
@@ -41,7 +41,7 @@ namespace TaskManagmentSystem.Repositories
             
             return OperationResult.Success();
         }
-        public async Task<OperationResult> UpdateAsync(WorkSpace workSpace)
+        public async Task<OperationResult> UpdateAsync(TimeLog workSpace)
         {
             _context.WorkSpaces.Update(workSpace);
             try
@@ -72,24 +72,24 @@ namespace TaskManagmentSystem.Repositories
             }
             return OperationResult.Success();
         }
-        public async Task<OperationResult<List<WorkSpace>>> GetForUserAsync(string userId)
+        public async Task<OperationResult<List<TimeLog>>> GetForUserAsync(string userId)
         {
             var workSpaces = await _context.WorkSpaces
                 .Where(ws => ws.AppUserId == userId)
                 .ToListAsync();
-            return OperationResult<List<WorkSpace>>.Success(workSpaces);
+            return OperationResult<List<TimeLog>>.Success(workSpaces);
         }
 
-        public async Task<OperationResult<List<WorkSpace>>> GetForTeamAsync(int teamId)
+        public async Task<OperationResult<List<TimeLog>>> GetForTeamAsync(int teamId)
         {
             var teamResult = await _teamService.GetByIdAsync(teamId);
             if(!teamResult.Succeeded)
-                return OperationResult<List<WorkSpace>>.Failure("Team not found");
+                return OperationResult<List<TimeLog>>.Failure("Team not found");
 
             var workSpaces = await _context.WorkSpaces
                 .Where(ws => ws.TeamId == teamId)
                 .ToListAsync();
-            return OperationResult<List<WorkSpace>>.Success(workSpaces);
+            return OperationResult<List<TimeLog>>.Success(workSpaces);
         }
     }
 }

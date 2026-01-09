@@ -5,7 +5,7 @@ namespace TaskManagmentSystem.Models
 { 
     public class AppDbContext : IdentityDbContext<AppUser>
     {
-        public DbSet<WorkSpace> WorkSpaces { get; set; }
+        public DbSet<TimeLog> WorkSpaces { get; set; }
         public DbSet<TaskList> TaskLists { get; set; }
         public DbSet<UserTask> UserTasks { get; set; }
         public DbSet<Notification> Notifications { get; set; }
@@ -44,9 +44,9 @@ namespace TaskManagmentSystem.Models
             builder.Entity<TaskList>().Property(x => x.Title).HasMaxLength(50);
             builder.Entity<TaskList>().Property(x => x.Description).HasMaxLength(100);
 
-            builder.Entity<WorkSpace>().HasKey(x => x.Id);
-            builder.Entity<WorkSpace>().Property(x => x.Title).HasMaxLength(50);
-            builder.Entity<WorkSpace>().Property(x => x.Description).HasMaxLength(100);
+            builder.Entity<TimeLog>().HasKey(x => x.Id);
+            builder.Entity<TimeLog>().Property(x => x.Title).HasMaxLength(50);
+            builder.Entity<TimeLog>().Property(x => x.Description).HasMaxLength(100);
 
             builder.Entity<Notification>().HasKey(x => x.Id);
             builder.Entity<Notification>().Property(x => x.Details).HasMaxLength(200);
