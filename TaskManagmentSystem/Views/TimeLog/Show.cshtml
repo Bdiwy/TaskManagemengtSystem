@@ -120,10 +120,6 @@
                         </div>
                         <h3>No Time Logs Yet</h3>
                         <p>You haven't logged any time yet. Start tracking your work!</p>
-                        <a asp-action="Create" class="btn btn-create-first">
-                            <i class="bi bi-plus-circle-fill"></i>
-                            <span>Log Your First Time</span>
-                        </a>
                     </div>
                 </div>
             }
@@ -331,5 +327,28 @@
         .timelog-actions {
             flex-direction: column;
         }
+    }
+
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-actions {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .empty-state {
+        min-height: 60vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .empty-state-content {
+        max-width: 400px;
     }
 </style>
