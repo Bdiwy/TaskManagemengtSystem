@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using TaskManagmentSystem.Models;
 
-namespace TaskManagmentSystem.ModelsView
+namespace TaskManagmentSystem.ViewModels
 {
     public class TimeLogViewModel
     {

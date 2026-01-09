@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManagmentSystem.Models;
-using TaskManagmentSystem.Srvices.Interfaces;
+using TaskManagmentSystem.Repositories.Interfaces;
 namespace TaskManagmentSystem.Controllers
 {
     public class TimeLogController : Controller
@@ -31,7 +31,7 @@ namespace TaskManagmentSystem.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Store()
+        //public async Task<IActionResult> Store()
 
     }
 }

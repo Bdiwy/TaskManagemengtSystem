@@ -1,6 +1,5 @@
 ﻿using TaskManagmentSystem.Helpers;
 using TaskManagmentSystem.Models;
-using TaskManagmentSystem.ModelsView;
 using TaskManagmentSystem.Repositories.Interfaces;
 using TaskManagmentSystem.ViewModels;
 using TaskManagmentSystem.Srvices.Interfaces;
