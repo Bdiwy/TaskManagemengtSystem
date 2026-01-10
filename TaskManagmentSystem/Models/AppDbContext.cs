@@ -14,6 +14,7 @@ namespace TaskManagmentSystem.Models
         public DbSet<TeamAppUser> TeamAppUser { get; set; }
         public DbSet<TaskEdiotor> TaskEdiotor { get; set; }
         public DbSet<TeamInvitation> TeamInvitations { get; set; }
+        public DbSet<TimeLog> TimeLog { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }

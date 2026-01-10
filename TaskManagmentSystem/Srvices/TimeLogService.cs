@@ -19,12 +19,13 @@ namespace TaskManagmentSystem.Srvices
             throw new NotImplementedException();
         }
 
-        public Task<OperationResult> CreateAsync(WorkSpaceViewModel workSpaceToCreate, string userId)
+        public async Task<OperationResult> CreateAsync(TimeLogViewModel timeLogFromRequest)
         {
-            throw new NotImplementedException();
+            var result = await _timeLogRepository.CreateAsync(timeLogFromRequest);
+            return result;
         }
 
-        public Task<OperationResult> UpdateAsync(WorkSpaceForEditViewModel workSpaceToUpdate)
+        public Task<OperationResult> UpdateAsync(TimeLogViewModel timeLogFromRequest)
         {
             throw new NotImplementedException();
         }

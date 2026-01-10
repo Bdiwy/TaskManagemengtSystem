@@ -7,8 +7,8 @@ namespace TaskManagmentSystem.Srvices.Interfaces
     public interface ITimeLogService
     {
         Task<OperationResult<TimeLog>> GetByIdAsync(int id);
-        Task<OperationResult> CreateAsync(WorkSpaceViewModel workSpaceToCreate, string userId);
-        Task<OperationResult> UpdateAsync(WorkSpaceForEditViewModel workSpaceToUpdate);
+        Task<OperationResult> CreateAsync(TimeLogViewModel timeLogFromRequest);
+        Task<OperationResult> UpdateAsync(TimeLogViewModel timeLogFromRequest);
         Task<OperationResult> DeleteAsync(int id);
         Task<OperationResult<List<TimeLog>>> GetForUserAsync(string userId);
         Task<OperationResult<List<TimeLog>>> GetForTaskAsync(int teamId, string userId);

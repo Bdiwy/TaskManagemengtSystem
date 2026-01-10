@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using TaskManagmentSystem.Models;
 
 namespace TaskManagmentSystem.ViewModels
@@ -7,19 +6,23 @@ namespace TaskManagmentSystem.ViewModels
     public class TimeLogViewModel
     {
         public int Id { get; set; }
-        [Required]
+        
+        [Required(ErrorMessage = "Actual time is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Actual time must be greater than 0")]
         public int Actul { get; set; }
-        [Required]
-        [Range(0,100)]
+        
+        [Required(ErrorMessage = "Progress is required")]
+        [Range(0, 100, ErrorMessage = "Progress must be between 0 and 100")]
         public int Progress { get; set; }
-        [Required]
+        
+        [Required(ErrorMessage = "Allocated time is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Allocated time must be greater than 0")]
         public int Allocat { get; set; }
 
-        [Required]
-        [ForeignKey("Task")]
+        [Required(ErrorMessage = "Please select a task")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid task")]
         public int TaskId { get; set; }
-        public TaskList Task { get; set; } = null!;
-
-
+        
+        public TaskList? Task { get; set; }
     }
 }
