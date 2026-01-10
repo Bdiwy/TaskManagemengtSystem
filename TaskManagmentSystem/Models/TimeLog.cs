@@ -15,10 +15,8 @@ namespace TaskManagmentSystem.Models
         public int Allocat { get; set; }
 
         [Required]
-        [ForeignKey("Task")]
+        [ForeignKey("UserTask")]
         public int TaskId { get; set; }
-        public TaskList Task { get; set; } = null!;
-
-
+        public UserTask Task { get; set; } = null!;
     }
 }

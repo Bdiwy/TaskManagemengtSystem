@@ -14,7 +14,13 @@ namespace TaskManagmentSystem.Srvices
             _timeLogRepository = timeLogRepository;
         }
 
-        public Task<OperationResult<TimeLog>> GetByIdAsync(int id)
+        public async Task<OperationResult<List<TimeLogViewModel>>> GetAllAsync()
+        {
+            var result = await _timeLogRepository.GetAllAsync();
+            return result;
+        }
+
+        public Task<OperationResult<TimeLogViewModel>> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -35,12 +41,12 @@ namespace TaskManagmentSystem.Srvices
             throw new NotImplementedException();
         }
 
-        public Task<OperationResult<List<TimeLog>>> GetForUserAsync(string userId)
+        public Task<OperationResult<List<TimeLogViewModel>>> GetForUserAsync(string userId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<OperationResult<List<TimeLog>>> GetForTaskAsync(int teamId, string userId)
+        public Task<OperationResult<List<TimeLogViewModel>>> GetForTaskAsync(int teamId, string userId)
         {
             throw new NotImplementedException();
         }

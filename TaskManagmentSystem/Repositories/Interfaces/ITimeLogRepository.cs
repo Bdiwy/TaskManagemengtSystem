@@ -5,7 +5,8 @@ namespace TaskManagmentSystem.Repositories.Interfaces
 {
     public interface ITimeLogRepository
     {
-        Task<OperationResult<TimeLog>> GetByIdAsync(int id);
+        Task<OperationResult<List<TimeLogViewModel>>> GetAllAsync();
+        Task<OperationResult<TimeLogViewModel>> GetByIdAsync(int id);
         Task<OperationResult> CreateAsync(TimeLogViewModel timeLogViewModel);
         Task<OperationResult> UpdateAsync(TimeLogViewModel timeLogToUpdate);
         Task<OperationResult> DeleteAsync(int id);

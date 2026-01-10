@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TaskManagmentSystem.ViewModels.TimeLogViewModel>
+﻿@model List<TaskManagmentSystem.ViewModels.TimeLogViewModel>
 
 @{
     ViewData["Title"] = "Time Logs";
@@ -38,9 +38,9 @@
                                 <div class="timelog-info">
                                     <h3 class="timelog-task-title">
                                         <i class="bi bi-check2-square"></i>
-                                        @if (log.Task != null)
+                                        @if (log.TaskTitle != null)
                                         {
-                                            @log.Task.Title
+                                            @log.TaskTitle
                                         }
                                         else
                                         {

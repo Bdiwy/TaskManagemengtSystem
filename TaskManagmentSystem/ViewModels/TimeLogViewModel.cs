@@ -22,7 +22,9 @@ namespace TaskManagmentSystem.ViewModels
         [Required(ErrorMessage = "Please select a task")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a valid task")]
         public int TaskId { get; set; }
-        
-        public TaskList? Task { get; set; }
+
+        public string? TaskTitle { get; set; }
+
+        public UserTask? Task { get; set; }
     }
 }

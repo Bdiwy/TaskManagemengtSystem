@@ -8,7 +8,18 @@ namespace TaskManagmentSystem.Repositories
 {
     public class TimeLogRepository(AppDbContext _context) : ITimeLogRepository
     {
-        public Task<OperationResult<TimeLog>> GetByIdAsync(int id)
+        public async Task<OperationResult<List<TimeLogViewModel>>> GetAllAsync()
+        {
+            var result = await _context.TimeLog.Select(tl => new TimeLogViewModel
+            {
+                Actul = tl.Actul,
+                Allocat = tl.Allocat,
+                Progress = tl.Progress,
+                TaskTitle = tl.Task.Title,
+            }).ToListAsync();
+            return OperationResult<List<TimeLogViewModel>>.Success(result);
+        }
+        public Task<OperationResult<TimeLogViewModel>> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }

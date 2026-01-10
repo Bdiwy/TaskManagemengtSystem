@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using TaskManagmentSystem.Models;
 using TaskManagmentSystem.Repositories.Interfaces;
+using TaskManagmentSystem.Srvices.Interfaces;
 using TaskManagmentSystem.ViewModels;
 
 namespace TaskManagmentSystem.Controllers
@@ -10,9 +12,9 @@ namespace TaskManagmentSystem.Controllers
     public class TimeLogController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly ITimeLogRepository _timeLogService;
+        private readonly ITimeLogService _timeLogService;
         
-        public TimeLogController(ITimeLogRepository TimeLogService, AppDbContext context)
+        public TimeLogController(ITimeLogService TimeLogService, AppDbContext context)
         {
             _timeLogService = TimeLogService;
             _context = context;
@@ -20,12 +22,20 @@ namespace TaskManagmentSystem.Controllers
 
         public IActionResult Index() => View();
         
-        public IActionResult Show() => View();
+        public async Task<IActionResult> Show()
+        {
+            var result = await _timeLogService.GetAllAsync();
+
+            if (!result.Succeeded)
+                return View();
+            return View(result.Data);
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            await PopulateTaskListAsync();
+            await PopulateUserTasksAsync();
             return View("Add");
         }
 
@@ -37,12 +47,12 @@ namespace TaskManagmentSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Store(TimeLogViewModel request)
         {
-            if (request.TaskId > 0 && !await _context.TaskLists.AnyAsync(t => t.Id == request.TaskId))
+            if (request.TaskId > 0 && !await _context.UserTasks.AnyAsync(t => t.Id == request.TaskId))
                 ModelState.AddModelError(nameof(request.TaskId), "Selected task does not exist");
 
             if (!ModelState.IsValid)
             {
-                await PopulateTaskListAsync();
+                await PopulateUserTasksAsync();
                 return View("Add", request);
             }
 
@@ -57,7 +67,7 @@ namespace TaskManagmentSystem.Controllers
             if (!result.Succeeded)
             {
                 ModelState.AddModelError("", result.ErrorMessage);
-                await PopulateTaskListAsync();
+                await PopulateUserTasksAsync();
                 return View("Add", request);
             }
 
@@ -70,10 +80,10 @@ namespace TaskManagmentSystem.Controllers
             return RedirectToAction("Show", new { Id = timeLogFromRequest.Id });
         }
 
-        private async Task PopulateTaskListAsync()
+        private async Task PopulateUserTasksAsync()
         {
             ViewBag.TaskList = new SelectList(
-                await _context.TaskLists
+                await _context.UserTasks
                     .Select(t => new { t.Id, t.Title })
                     .ToListAsync(),
                 "Id",
