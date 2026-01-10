@@ -34,7 +34,7 @@ namespace TaskManagementSystem.API
             });
 
             builder.Services.AddSignalR();
-
+            builder.Services.AddHttpContextAccessor();
             builder.Services.AddHangfire(config =>
             {
                 config.SetDataCompatibilityLevel(CompatibilityLevel.Version_180);

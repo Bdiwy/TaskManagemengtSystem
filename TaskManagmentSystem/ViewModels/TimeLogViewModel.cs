@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AutoMapper.Configuration.Annotations;
+using System.ComponentModel.DataAnnotations;
 using TaskManagmentSystem.Models;
 
 namespace TaskManagmentSystem.ViewModels
@@ -22,6 +23,8 @@ namespace TaskManagmentSystem.ViewModels
         [Required(ErrorMessage = "Please select a task")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a valid task")]
         public int TaskId { get; set; }
+        [Ignore]
+        public string? UserId { get; set; }
 
         public string? TaskTitle { get; set; }
 

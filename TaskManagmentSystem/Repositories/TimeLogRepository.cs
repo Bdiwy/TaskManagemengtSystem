@@ -3,14 +3,17 @@ using TaskManagmentSystem.Helpers;
 using TaskManagmentSystem.Models;
 using TaskManagmentSystem.Repositories.Interfaces;
 using TaskManagmentSystem.ViewModels;
+using System.Security.Claims;
 
 namespace TaskManagmentSystem.Repositories
 {
-    public class TimeLogRepository(AppDbContext _context) : ITimeLogRepository
+    public class TimeLogRepository(AppDbContext _context , IHttpContextAccessor _httpContextAccessor) : ITimeLogRepository
     {
+        private string? UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+
         public async Task<OperationResult<List<TimeLogViewModel>>> GetAllAsync()
         {
-            var result = await _context.TimeLog.Select(tl => new TimeLogViewModel
+            var result = await _context.TimeLog.Where(t => t.UserId == UserId).Select(tl => new TimeLogViewModel
             {
                 Actul = tl.Actul,
                 Allocat = tl.Allocat,
@@ -31,7 +34,8 @@ namespace TaskManagmentSystem.Repositories
             newTimeLog.Actul = timeLogFromRequest.Actul;
             newTimeLog.Progress = timeLogFromRequest.Progress;
             newTimeLog.TaskId = timeLogFromRequest.TaskId;
-            
+            newTimeLog.UserId = timeLogFromRequest.UserId;
+
             await _context.TimeLog.AddAsync(newTimeLog);
             var result = await _context.SaveChangesAsync();
             

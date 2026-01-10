@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TaskManagmentSystem.Models;
 using TaskManagmentSystem.Repositories.Interfaces;
@@ -61,7 +62,8 @@ namespace TaskManagmentSystem.Controllers
                 Actul = request.Actul,
                 Allocat = request.Allocat,
                 Progress = request.Progress,
-                TaskId = request.TaskId
+                TaskId = request.TaskId,
+                UserId =  User.FindFirstValue(ClaimTypes.NameIdentifier)
             });
 
             if (!result.Succeeded)

@@ -18,5 +18,9 @@ namespace TaskManagmentSystem.Models
         [ForeignKey("UserTask")]
         public int TaskId { get; set; }
         public UserTask Task { get; set; } = null!;
+
+        [ForeignKey("AppUser")]
+        public string UserId { get; set; }
+        public AppUser User { get; set; } = null!;
     }
 }
