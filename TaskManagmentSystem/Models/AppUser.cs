@@ -13,7 +13,7 @@ namespace TaskManagmentSystem.Models
         public DateOnly Birthday{ get; set; }
         public Genders Gender{ get; set; }
         public AppUserProfile Profile { get; set; } = null!;
-        public List<TimeLog>? WorkSpaces { get; set; }
+        public List<WorkSpace>? WorkSpaces { get; set; }
         public List<Notification>? Notifications { get; set; }
 
         // M:N
