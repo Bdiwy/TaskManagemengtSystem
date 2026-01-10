@@ -20,9 +20,10 @@ namespace TaskManagmentSystem.Srvices
             return result;
         }
 
-        public Task<OperationResult<TimeLogViewModel>> GetByIdAsync(int id)
+        public async Task<OperationResult<TimeLog>> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _timeLogRepository.GetByIdAsync(id);
+            return OperationResult<TimeLog>.Success(result);
         }
 
         public async Task<OperationResult> CreateAsync(TimeLogViewModel timeLogFromRequest)

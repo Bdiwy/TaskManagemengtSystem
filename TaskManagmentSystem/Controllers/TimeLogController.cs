@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using TaskManagmentSystem.Models;
@@ -40,8 +42,18 @@ namespace TaskManagmentSystem.Controllers
             return View("Add");
         }
 
-        public IActionResult Update() => View();
-        
+
+        [HttpGet("{Id}")]
+
+        public async Task<IActionResult> Edit(int Id)
+        {
+            var result = await _timeLogService.GetByIdAsync(Id);
+            if (result is null)
+            { 
+                return RedirectToAction("Show");
+            }
+            return View("Edit", result);
+        }
         public IActionResult Delete() => View();
 
         [HttpPost]
@@ -76,10 +88,19 @@ namespace TaskManagmentSystem.Controllers
             return RedirectToAction("Show");
         }
 
-        public async Task<IActionResult> Update(TimeLogViewModel timeLogFromRequest)
+        public async Task<IActionResult> Update(TimeLogViewModel request)
         {
-            await _timeLogService.UpdateAsync(timeLogFromRequest);
-            return RedirectToAction("Show", new { Id = timeLogFromRequest.Id });
+            if (request.TaskId > 0 && !await _context.UserTasks.AnyAsync(t => t.Id == request.TaskId))
+                ModelState.AddModelError(nameof(request.TaskId), "Selected task does not exist");
+
+            if (!ModelState.IsValid)
+            {
+                await PopulateUserTasksAsync();
+                return RedirectToAction("Edit", request);
+            }
+
+            await _timeLogService.UpdateAsync(request);
+            return RedirectToAction("Show");
         }
 
         private async Task PopulateUserTasksAsync()

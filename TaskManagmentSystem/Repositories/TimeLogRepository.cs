@@ -22,9 +22,9 @@ namespace TaskManagmentSystem.Repositories
             }).ToListAsync();
             return OperationResult<List<TimeLogViewModel>>.Success(result);
         }
-        public Task<OperationResult<TimeLogViewModel>> GetByIdAsync(int id)
+        public async Task<TimeLog> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return (await _context.TimeLog.FindAsync(id))!;
         }
 
         public async Task<OperationResult> CreateAsync(TimeLogViewModel timeLogFromRequest)
@@ -34,7 +34,7 @@ namespace TaskManagmentSystem.Repositories
             newTimeLog.Actul = timeLogFromRequest.Actul;
             newTimeLog.Progress = timeLogFromRequest.Progress;
             newTimeLog.TaskId = timeLogFromRequest.TaskId;
-            newTimeLog.UserId = timeLogFromRequest.UserId;
+            newTimeLog.UserId = timeLogFromRequest.UserId!;
 
             await _context.TimeLog.AddAsync(newTimeLog);
             var result = await _context.SaveChangesAsync();

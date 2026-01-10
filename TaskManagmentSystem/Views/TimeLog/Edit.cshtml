@@ -1,0 +1,411 @@
+﻿@model TaskManagmentSystem.ViewModels.TimeLogViewModel
+
+@{
+    ViewData["Title"] = "Edit Log Time";
+}
+
+<div class="timelog-add-wrapper">
+    <div class="container-fluid timelog-add-container">
+        <!-- Header Section -->
+        <div class="add-header">
+            <div class="header-content">
+                <div class="title-section">
+                    <h1 class="add-title">
+                        <i class="bi bi-stopwatch-fill"></i>
+                        Log Time Entry
+                    </h1>
+                    <p class="add-subtitle">Record time spent on a task and update its progress</p>
+                </div>
+                <a asp-action="Show" class="btn btn-back">
+                    <i class="bi bi-arrow-left"></i>
+                    <span>Back to Time Logs</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <div class="add-card">
+            <div class="add-card-header">
+                <div class="card-icon">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+                <div class="card-title-section">
+                    <h3 class="card-title">Time Entry Details</h3>
+                    <p class="card-subtitle">Select task and enter time & progress information</p>
+                </div>
+            </div>
+
+            <div class="add-card-body">
+                <form asp-controller="TimeLog" asp-action="Store" method="post" class="timelog-form">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+                    <!-- Task Selection -->
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label asp-for="TaskId" class="form-label">
+                                <i class="bi bi-check2-square"></i>
+                                <span>Task</span>
+                                <span class="required-indicator">*</span>
+                            </label>
+                            <div class="select-wrapper">
+                                <select asp-for="TaskId" class="form-select" asp-items="ViewBag.TaskList" required>
+                                    <option value="">-- Select a Task --</option>
+                                </select>
+                                <div class="select-icon">
+                                    <i class="bi bi-list-task"></i>
+                                </div>
+                            </div>
+                            <span asp-validation-for="TaskId" class="validation-error"></span>
+                            <div class="form-help">
+                                <small>Choose the task you worked on</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actual Time Spent -->
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label asp-for="Actul" class="form-label">
+                                <i class="bi bi-stopwatch"></i>
+                                <span>Actual Time Spent (minutes)</span>
+                                <span class="required-indicator">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input asp-for="Actul" class="form-input" type="number" min="1" required placeholder="e.g. 45" />
+                                <div class="input-icon">
+                                    <i class="bi bi-clock"></i>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Actul" class="validation-error"></span>
+                            <div class="form-help">
+                                <small>How many minutes did you actually spend on this task?</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Allocated Time -->
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label asp-for="Allocat" class="form-label">
+                                <i class="bi bi-calendar-check"></i>
+                                <span>Allocated / Estimated Time (minutes)</span>
+                                <span class="required-indicator">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input asp-for="Allocat" class="form-input" type="number" min="1" required placeholder="e.g. 120" />
+                                <div class="input-icon">
+                                    <i class="bi bi-hourglass-split"></i>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Allocat" class="validation-error"></span>
+                            <div class="form-help">
+                                <small>Planned/estimated time for this task (in minutes)</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress -->
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label asp-for="Progress" class="form-label">
+                                <i class="bi bi-bar-chart-line-fill"></i>
+                                <span>Progress (%)</span>
+                                <span class="required-indicator">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input asp-for="Progress" class="form-input" type="number" min="0" max="100" required placeholder="e.g. 75" />
+                                <div class="input-icon">
+                                    <i class="bi bi-percent"></i>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Progress" class="validation-error"></span>
+                            <div class="form-help">
+                                <small>Current completion percentage of the task (0-100)</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-create">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Save Time Entry</span>
+                        </button>
+                        <a asp-action="Show" class="btn btn-cancel">
+                            <i class="bi bi-x-circle"></i>
+                            <span>Cancel</span>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="help-section">
+            <div class="help-card">
+                <div class="help-icon">
+                    <i class="bi bi-lightbulb-fill"></i>
+                </div>
+                <div class="help-content">
+                    <h4>Tips for Logging Time</h4>
+                    <ul>
+                        <li><strong>Be accurate:</strong> Enter real time spent to get better insights</li>
+                        <li><strong>Update progress:</strong> Keep task progress up-to-date</li>
+                        <li><strong>Compare times:</strong> Actual vs Allocated helps identify overruns</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================= -->
+<!--               STYLES                             -->
+<!-- ============================================= -->
+<style>
+    :root {
+        --primary-color: #6366f1;
+        --primary-hover: #5855eb;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --text-primary: #1f2937;
+        --text-secondary: #6b7280;
+        --border-color: #e5e7eb;
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        --radius: 12px;
+        --radius-sm: 8px;
+    }
+
+    .timelog-add-wrapper {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
+
+    .timelog-add-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .add-header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: var(--radius);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .add-title {
+        font-size: 2.4rem;
+        font-weight: 700;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: linear-gradient(135deg, var(--primary-color), #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .add-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-lg);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        overflow: hidden;
+    }
+
+    .add-card-header {
+        background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+        padding: 1.75rem 2rem;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+    }
+
+    .card-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--primary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.8rem;
+        flex-shrink: 0;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--text-primary);
+    }
+
+    .add-card-body {
+        padding: 2rem;
+    }
+
+    .form-section {
+        margin-bottom: 2rem;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.6rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .required-indicator {
+        color: var(--danger-color);
+        font-weight: bold;
+    }
+
+    .form-input,
+    .form-select {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 2.8rem;
+        border: 2px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            outline: none;
+        }
+
+    .input-wrapper,
+    .select-wrapper,
+    .textarea-wrapper {
+        position: relative;
+    }
+
+    .input-icon,
+    .select-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2.5rem;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 0.8rem 1.6rem;
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        border: 2px solid;
+        cursor: pointer;
+    }
+
+    .btn-create {
+        background: var(--success-color);
+        color: white;
+        border-color: var(--success-color);
+    }
+
+        .btn-create:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+    .btn-cancel {
+        background: white;
+        color: var(--text-secondary);
+        border-color: var(--border-color);
+    }
+
+        .btn-back,
+        .btn-cancel:hover {
+            background: #f3f4f6;
+        }
+
+    .validation-error {
+        color: var(--danger-color);
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: block;
+    }
+
+    .validation-summary {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: var(--danger-color);
+        padding: 1rem;
+        border-radius: var(--radius-sm);
+        margin-bottom: 1.5rem;
+        font-size: 0.875rem;
+    }
+
+        .validation-summary ul {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+
+        .validation-summary li {
+            margin: 0.25rem 0;
+        }
+
+    .help-section {
+        margin-top: 2.5rem;
+    }
+
+    .help-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        display: flex;
+        gap: 1.25rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .help-icon {
+        font-size: 2.2rem;
+        color: #f59e0b;
+        flex-shrink: 0;
+    }
+
+    @@media (max-width: 768px) {
+        .add-title {
+            font-size: 2rem;
+        }
+
+        .add-card-body {
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
