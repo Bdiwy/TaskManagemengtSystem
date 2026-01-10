@@ -1,60 +1,506 @@
 ﻿@model TaskManagmentSystem.ViewModels.UserTaskEditViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Task";
 }
 
-<h1>Edit</h1>
+<div class="form-page-wrapper">
+    <div class="container-fluid form-container">
+        <!-- Header Section -->
+        <div class="form-header">
+            <div class="header-content">
+                <div class="title-section">
+                    <h1 class="form-title">
+                        <i class="bi bi-pencil-square"></i>
+                        Edit Task
+                    </h1>
+                    <p class="form-subtitle">Update your task information</p>
+                </div>
+                <a asp-action="ShowAll" asp-controller="TaskList" asp-route-id="@Model.WorkSpaceId" class="btn btn-back">
+                    <i class="bi bi-arrow-left"></i>
+                    <span>Back to Board</span>
+                </a>
+            </div>
+        </div>
 
-<h4>UserTaskEditViewModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="SaveEdit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="WorkSpaceId" />
-            <input type="hidden" asp-for="Id" value="@Model.Id" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+        <!-- Form Section -->
+        <div class="form-card">
+            <div class="form-card-header">
+                <h3 class="card-title">Task Details</h3>
+                <p class="card-subtitle">Modify the information below to update your task</p>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+
+            <div class="form-card-body">
+                <form asp-action="SaveEdit" class="modern-form">
+                    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+                    <input type="hidden" asp-for="WorkSpaceId" />
+                    <input type="hidden" asp-for="Id" />
+
+                    <!-- Basic Information -->
+                    <div class="form-section">
+                        <h4 class="section-title">Basic Information</h4>
+
+                        <div class="form-group">
+                            <label asp-for="Title" class="form-label">
+                                <i class="bi bi-card-heading"></i>
+                                Task Title
+                            </label>
+                            <input asp-for="Title" class="form-input" placeholder="Enter task title..." />
+                            <span asp-validation-for="Title" class="validation-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Description" class="form-label">
+                                <i class="bi bi-file-text"></i>
+                                Description
+                            </label>
+                            <textarea asp-for="Description" class="form-textarea" rows="4" placeholder="Enter task description..."></textarea>
+                            <span asp-validation-for="Description" class="validation-error"></span>
+                        </div>
+                    </div>
+
+                    <!-- Task Properties -->
+                    <div class="form-section">
+                        <h4 class="section-title">Task Properties</h4>
+
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label asp-for="Status" class="form-label">
+                                    <i class="bi bi-flag"></i>
+                                    Status
+                                </label>
+                                <select asp-for="Status" class="form-select">
+                                    <option value="NotStarted">Not Started</option>
+                                    <option value="InProgress">In Progress</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="OnHold">On Hold</option>
+                                </select>
+                                <span asp-validation-for="Status" class="validation-error"></span>
+                            </div>
+
+                            <div class="form-group half-width">
+                                <label asp-for="Priority" class="form-label">
+                                    <i class="bi bi-exclamation-triangle"></i>
+                                    Priority
+                                </label>
+                                <select asp-for="Priority" class="form-select">
+                                    <option value="None">None</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                                <span asp-validation-for="Priority" class="validation-error"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schedule -->
+                    <div class="form-section">
+                        <h4 class="section-title">Schedule</h4>
+
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label asp-for="BeginOn" class="form-label">
+                                    <i class="bi bi-calendar-event"></i>
+                                    Start Date
+                                </label>
+                                <input asp-for="BeginOn" type="datetime-local" class="form-input" />
+                                <span asp-validation-for="BeginOn" class="validation-error"></span>
+                            </div>
+
+                            <div class="form-group half-width">
+                                <label asp-for="EndOn" class="form-label">
+                                    <i class="bi bi-calendar-check"></i>
+                                    End Date
+                                </label>
+                                <input asp-for="EndOn" type="datetime-local" class="form-input" />
+                                <span asp-validation-for="EndOn" class="validation-error"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reminders Section -->
+                    <div class="form-section">
+                        <h4 class="section-title">Reminders</h4>
+                        <p class="section-description">Update notification settings for this task</p>
+
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label asp-for="RemindMeBeforeBegin" class="form-label">
+                                    <i class="bi bi-alarm"></i>
+                                    Remind Before Start
+                                </label>
+                                <select asp-for="RemindMeBeforeBegin" class="form-select reminder-select">
+                                    <option value="5">5 minutes before</option>
+                                    <option value="10">10 minutes before</option>
+                                    <option value="15">15 minutes before</option>
+                                    <option value="30">30 minutes before</option>
+                                    <option value="60">1 hour before</option>
+                                </select>
+                                <span asp-validation-for="RemindMeBeforeBegin" class="validation-error"></span>
+                                <small class="form-help">Get notified before the task start time</small>
+                            </div>
+
+                            <div class="form-group half-width">
+                                <label asp-for="RemindMeBeforeEnd" class="form-label">
+                                    <i class="bi bi-bell"></i>
+                                    Remind Before End
+                                </label>
+                                <select asp-for="RemindMeBeforeEnd" class="form-select reminder-select">
+                                    <option value="5">5 minutes before</option>
+                                    <option value="10">10 minutes before</option>
+                                    <option value="15">15 minutes before</option>
+                                    <option value="30">30 minutes before</option>
+                                    <option value="60">1 hour before</option>
+                                </select>
+                                <span asp-validation-for="RemindMeBeforeEnd" class="validation-error"></span>
+                                <small class="form-help">Get notified before the task deadline</small>
+                            </div>
+                        </div>
+
+                        <!-- Reminder Status -->
+                        <div class="reminder-status">
+                            <div class="status-icon">
+                                <i class="bi bi-check-circle-fill"></i>
+                            </div>
+                            <div class="status-content">
+                                <h6>Reminder Status</h6>
+                                <p>Your reminder preferences will be updated when you save the task. You can change these settings anytime.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-save">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Save Changes</span>
+                        </button>
+                        <a asp-action="ShowAll" asp-controller="TaskList" asp-route-id="@Model.WorkSpaceId" class="btn btn-cancel">
+                            <i class="bi bi-x-circle"></i>
+                            <span>Cancel</span>
+                        </a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Priority" class="control-label"></label>
-                <input asp-for="Priority" class="form-control" />
-                <span asp-validation-for="Priority" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BeginOn" class="control-label"></label>
-                <input asp-for="BeginOn" class="form-control" />
-                <span asp-validation-for="BeginOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndOn" class="control-label"></label>
-                <input asp-for="EndOn" class="form-control" />
-                <span asp-validation-for="EndOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="ShowAll" asp-controller="TaskList" asp-route-id="@Model.WorkSpaceId">Back</a>
-</div>
+<style>
+    /* استخدام نفس الـ CSS من صفحة الإضافة مع تعديلات للتذكيرات */
+    :root {
+        --primary-color: #6366f1;
+        --primary-hover: #5855eb;
+        --success-color: #10b981;
+        --success-hover: #059669;
+        --danger-color: #ef4444;
+        --secondary-color: #6b7280;
+        --text-primary: #1f2937;
+        --text-secondary: #6b7280;
+        --text-muted: #9ca3af;
+        --border-color: #e5e7eb;
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        --radius: 12px;
+        --radius-sm: 8px;
+    }
+
+    .form-page-wrapper {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
+
+    .form-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .form-header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: var(--radius);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .form-title {
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .form-subtitle {
+        color: var(--text-secondary);
+        margin: 0.5rem 0 0 0;
+        font-size: 1.1rem;
+    }
+
+    .btn-back {
+        background: rgba(107, 114, 128, 0.1);
+        color: var(--secondary-color);
+        border: 2px solid var(--secondary-color);
+        padding: 0.75rem 1.25rem;
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+        .btn-back:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+    .form-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+    }
+
+    .form-card-header {
+        background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+        padding: 2rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0 0 0.5rem 0;
+    }
+
+    .card-subtitle {
+        color: var(--text-secondary);
+        margin: 0;
+    }
+
+    .form-card-body {
+        padding: 2rem;
+    }
+
+    .form-section {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+    }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+        }
+
+    .section-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0 0 0.5rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+        .section-title::before {
+            content: "";
+            width: 4px;
+            height: 1.25rem;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+    .section-description {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        margin: 0 0 1.5rem 0;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        flex: 1;
+    }
+
+        .form-group.half-width {
+            flex: 0 0 calc(50% - 0.75rem);
+        }
+
+    .form-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 2px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            transform: translateY(-1px);
+        }
+
+    .form-textarea {
+        resize: vertical;
+        min-height: 120px;
+        font-family: inherit;
+    }
+
+    .reminder-select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 0.5rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+        padding-right: 2.5rem;
+    }
+
+    .form-help {
+        display: block;
+        margin-top: 0.25rem;
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        font-style: italic;
+    }
+
+    .reminder-status {
+        display: flex;
+        gap: 1rem;
+        background: rgba(16, 185, 129, 0.05);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        border-radius: var(--radius-sm);
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .status-icon {
+        color: var(--success-color);
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+
+    .status-content h6 {
+        color: var(--text-primary);
+        font-weight: 600;
+        margin: 0 0 0.25rem 0;
+        font-size: 0.95rem;
+    }
+
+    .status-content p {
+        color: var(--text-secondary);
+        margin: 0;
+        font-size: 0.875rem;
+        line-height: 1.4;
+    }
+
+    .validation-error {
+        color: var(--danger-color);
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: block;
+        font-weight: 500;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 0.875rem 1.5rem;
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        text-decoration: none;
+        border: 2px solid;
+        min-width: 140px;
+        justify-content: center;
+    }
+
+    .btn-save {
+        background: var(--success-color);
+        color: white;
+        border-color: var(--success-color);
+    }
+
+        .btn-save:hover {
+            background: var(--success-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+    .btn-cancel {
+        background: white;
+        color: var(--secondary-color);
+        border-color: var(--secondary-color);
+    }
+
+        .btn-cancel:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+    @@media (max-width: 768px) {
+        .form-group.half-width
+
+    {
+        flex: 1;
+        min-width: 100%;
+    }
+
+    }</style>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

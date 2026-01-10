@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using TaskManagmentSystem.Models;
 
@@ -7,8 +8,8 @@ namespace TaskManagmentSystem.ViewModels
     public class WorkSpaceViewModel
     {
         [Required]
-        [Display(Name = "Tilte")]
-        public string Tilte { get; set; } = null!;
+        [Display(Name = "Title")]
+        public string Title { get; set; } = null!;
 
         [Display(Name = "Description")]
         public string? Description { get; set; }
@@ -16,5 +17,8 @@ namespace TaskManagmentSystem.ViewModels
 
         [ValidateNever]
         public List<string> Colors { get; set; }
+
+        [HiddenInput]
+        public int TeamId { get; set; }
     }
 }

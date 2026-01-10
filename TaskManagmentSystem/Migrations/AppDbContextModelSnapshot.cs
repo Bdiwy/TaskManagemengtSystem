@@ -163,6 +163,9 @@ namespace TaskManagmentSystem.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<DateOnly>("Birthday")
+                        .HasColumnType("date");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -173,6 +176,9 @@ namespace TaskManagmentSystem.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -220,6 +226,104 @@ namespace TaskManagmentSystem.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("TaskManagmentSystem.Models.AppUserProfile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("JopTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("PicURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
+
+                    b.ToTable("AppUserProfiles");
+                });
+
+            modelBuilder.Entity("TaskManagmentSystem.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ActorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateToSend")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("RecipientId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("TeamInvitationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserTaskId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActorId");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("TeamInvitationId");
+
+                    b.HasIndex("UserTaskId");
+
+                    b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("TaskManagmentSystem.Models.TaskEdiotor", b =>
+                {
+                    b.Property<string>("EditorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("TaskEditedId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EditorId", "TaskEditedId");
+
+                    b.HasIndex("TaskEditedId");
+
+                    b.ToTable("TaskEdiotor");
+                });
+
             modelBuilder.Entity("TaskManagmentSystem.Models.TaskList", b =>
                 {
                     b.Property<int>("Id")
@@ -250,6 +354,97 @@ namespace TaskManagmentSystem.Migrations
                     b.ToTable("TaskLists");
                 });
 
+            modelBuilder.Entity("TaskManagmentSystem.Models.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AdminId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(75)
+                        .HasColumnType("nvarchar(75)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdminId");
+
+                    b.ToTable("Teams");
+                });
+
+            modelBuilder.Entity("TaskManagmentSystem.Models.TeamAppUser", b =>
+                {
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Permissons")
+                        .HasColumnType("int");
+
+                    b.HasKey("TeamId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TeamAppUser");
+                });
+
+            modelBuilder.Entity("TaskManagmentSystem.Models.TeamInvitation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Message")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("Permissions")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReceiverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("SendOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("TeamInvitations");
+                });
+
             modelBuilder.Entity("TaskManagmentSystem.Models.UserTask", b =>
                 {
                     b.Property<int>("Id")
@@ -267,6 +462,9 @@ namespace TaskManagmentSystem.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("CreaterId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Description")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -274,8 +472,22 @@ namespace TaskManagmentSystem.Migrations
                     b.Property<DateTime?>("EndOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDone")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("LastEditDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Priority")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("RemindMeBeforeBegin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("RemindMeBeforeEnd")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -289,6 +501,8 @@ namespace TaskManagmentSystem.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreaterId");
 
                     b.HasIndex("TaskListId");
 
@@ -314,6 +528,9 @@ namespace TaskManagmentSystem.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("TeamId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -322,6 +539,8 @@ namespace TaskManagmentSystem.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
+
+                    b.HasIndex("TeamId");
 
                     b.ToTable("WorkSpaces");
                 });
@@ -377,6 +596,67 @@ namespace TaskManagmentSystem.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TaskManagmentSystem.Models.AppUserProfile", b =>
+                {
+                    b.HasOne("TaskManagmentSystem.Models.AppUser", "AppUser")
+                        .WithOne("Profile")
+                        .HasForeignKey("TaskManagmentSystem.Models.AppUserProfile", "AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("TaskManagmentSystem.Models.Notification", b =>
+                {
+                    b.HasOne("TaskManagmentSystem.Models.AppUser", "Actor")
+                        .WithMany()
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("TaskManagmentSystem.Models.AppUser", "Recipient")
+                        .WithMany("Notifications")
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("TaskManagmentSystem.Models.TeamInvitation", "TeamInvitation")
+                        .WithMany()
+                        .HasForeignKey("TeamInvitationId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("TaskManagmentSystem.Models.UserTask", "UserTask")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserTaskId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Actor");
+
+                    b.Navigation("Recipient");
+
+                    b.Navigation("TeamInvitation");
+
+                    b.Navigation("UserTask");
+                });
+
+            modelBuilder.Entity("TaskManagmentSystem.Models.TaskEdiotor", b =>
+                {
+                    b.HasOne("TaskManagmentSystem.Models.AppUser", "Editor")
+                        .WithMany("TaskEditor")
+                        .HasForeignKey("EditorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TaskManagmentSystem.Models.UserTask", "TaskEdited")
+                        .WithMany("TaskEditor")
+                        .HasForeignKey("TaskEditedId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Editor");
+
+                    b.Navigation("TaskEdited");
+                });
+
             modelBuilder.Entity("TaskManagmentSystem.Models.TaskList", b =>
                 {
                     b.HasOne("TaskManagmentSystem.Models.WorkSpace", "WorkSpace")
@@ -388,13 +668,76 @@ namespace TaskManagmentSystem.Migrations
                     b.Navigation("WorkSpace");
                 });
 
+            modelBuilder.Entity("TaskManagmentSystem.Models.Team", b =>
+                {
+                    b.HasOne("TaskManagmentSystem.Models.AppUser", "Admin")
+                        .WithMany()
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Admin");
+                });
+
+            modelBuilder.Entity("TaskManagmentSystem.Models.TeamAppUser", b =>
+                {
+                    b.HasOne("TaskManagmentSystem.Models.Team", "Team")
+                        .WithMany("TeamAppUsers")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TaskManagmentSystem.Models.AppUser", "User")
+                        .WithMany("TeamAppUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Team");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TaskManagmentSystem.Models.TeamInvitation", b =>
+                {
+                    b.HasOne("TaskManagmentSystem.Models.AppUser", "Receiver")
+                        .WithMany("TnvitationsReceived")
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TaskManagmentSystem.Models.AppUser", "Sender")
+                        .WithMany("TnvitationsSent")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TaskManagmentSystem.Models.Team", "Team")
+                        .WithMany("Invitations")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
+
+                    b.Navigation("Team");
+                });
+
             modelBuilder.Entity("TaskManagmentSystem.Models.UserTask", b =>
                 {
+                    b.HasOne("TaskManagmentSystem.Models.AppUser", "Creater")
+                        .WithMany("TasksCreated")
+                        .HasForeignKey("CreaterId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("TaskManagmentSystem.Models.TaskList", "TaskList")
                         .WithMany("UserTasks")
                         .HasForeignKey("TaskListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Creater");
 
                     b.Navigation("TaskList");
                 });
@@ -402,17 +745,60 @@ namespace TaskManagmentSystem.Migrations
             modelBuilder.Entity("TaskManagmentSystem.Models.WorkSpace", b =>
                 {
                     b.HasOne("TaskManagmentSystem.Models.AppUser", "AppUser")
-                        .WithMany()
+                        .WithMany("WorkSpaces")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TaskManagmentSystem.Models.Team", "Team")
+                        .WithMany("WorkSpaces")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.Navigation("AppUser");
+
+                    b.Navigation("Team");
+                });
+
+            modelBuilder.Entity("TaskManagmentSystem.Models.AppUser", b =>
+                {
+                    b.Navigation("Notifications");
+
+                    b.Navigation("Profile")
+                        .IsRequired();
+
+                    b.Navigation("TaskEditor");
+
+                    b.Navigation("TasksCreated");
+
+                    b.Navigation("TeamAppUsers");
+
+                    b.Navigation("TnvitationsReceived");
+
+                    b.Navigation("TnvitationsSent");
+
+                    b.Navigation("WorkSpaces");
                 });
 
             modelBuilder.Entity("TaskManagmentSystem.Models.TaskList", b =>
                 {
                     b.Navigation("UserTasks");
+                });
+
+            modelBuilder.Entity("TaskManagmentSystem.Models.Team", b =>
+                {
+                    b.Navigation("Invitations");
+
+                    b.Navigation("TeamAppUsers");
+
+                    b.Navigation("WorkSpaces");
+                });
+
+            modelBuilder.Entity("TaskManagmentSystem.Models.UserTask", b =>
+                {
+                    b.Navigation("Notifications");
+
+                    b.Navigation("TaskEditor");
                 });
 
             modelBuilder.Entity("TaskManagmentSystem.Models.WorkSpace", b =>

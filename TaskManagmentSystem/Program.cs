@@ -1,10 +1,20 @@
 using System.Globalization;
+using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using TaskManagmentSystem.Filters;
+using TaskManagmentSystem.Hubs;
 using TaskManagmentSystem.Models;
+using TaskManagmentSystem.Notifications;
+using TaskManagmentSystem.Notifications.Interfaces;
+using TaskManagmentSystem.Repositories;
+using TaskManagmentSystem.Repositories.Interfaces;
+using TaskManagmentSystem.Srvices;
+using TaskManagmentSystem.Srvices.Interfaces;
+using TaskManagmentSystem.Srvicese;
 
 namespace TaskManagmentSystem
 {
@@ -20,6 +30,7 @@ namespace TaskManagmentSystem
             builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredUniqueChars = 0;
                 options.Password.RequireNonAlphanumeric = false;
@@ -33,6 +44,35 @@ namespace TaskManagmentSystem
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
+
+            builder.Services.AddSignalR();
+
+            builder.Services.AddHangfire(config =>
+            {
+                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_180);
+                config.UseSimpleAssemblyNameTypeSerializer();
+                config.UseRecommendedSerializerSettings();
+                config.UseSqlServerStorage(builder.Configuration.GetConnectionString("hangfirecs"));
+            });
+            builder.Services.AddHangfireServer();
+
+            builder.Services.AddScoped<INotificationFactory,NotificationFactory>();
+            builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+            builder.Services.AddScoped<INotificationService, NotificationService>();
+            builder.Services.AddScoped<INotificationScheduler, NotificationScheduler>();
+            builder.Services.AddScoped<INotificationDispatcher, NotificationDispatcher>();
+            builder.Services.AddScoped<IWorkSpaceRepository, WorkSpaceRepository>();
+            builder.Services.AddScoped<IWorkSpaceService, WorkSpaceService>();
+            builder.Services.AddScoped<ITeamAppUserRepository, TeamAppUserRepository>();
+            builder.Services.AddScoped<ITeamRepository, TeamRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<ITeamInvitationRepository, TeamInvitationRepository>();
+            builder.Services.AddScoped<ITeamAppUserService, TeamAppUserService>();
+            builder.Services.AddScoped<ITeamService, TeamService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ITeamInvitationService, TeamInvitationService>();
+            //builder.Services.AddScoped<TeamPermissionsFilter>();
+
 
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -65,6 +105,8 @@ namespace TaskManagmentSystem
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseHangfireDashboard();
+
             app.UseRouting();
 
             var locOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
@@ -77,6 +119,7 @@ namespace TaskManagmentSystem
                 name: "default",
                 pattern: "{controller=Workspace}/{action=ShowAll}/{id?}");
 
+            app.MapHub<NotificationsHub>("/hubs/taskNotification");
             app.Run();
         }
     }
