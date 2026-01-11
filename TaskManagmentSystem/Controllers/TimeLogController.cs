@@ -101,6 +101,7 @@ namespace TaskManagmentSystem.Controllers
         }
         
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int Id)
         {
             await _timeLogService.DeleteAsync(Id);
