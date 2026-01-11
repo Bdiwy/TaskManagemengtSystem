@@ -24,7 +24,7 @@ namespace TaskManagmentSystem.Repositories
         }
         public async Task<TimeLog> GetByIdAsync(int id)
         {
-            return (await _context.TimeLog.FindAsync(id))!;
+            return await _context.TimeLog.FindAsync(id);
         }
 
         public async Task<OperationResult> CreateAsync(TimeLogViewModel timeLogFromRequest)

@@ -52,7 +52,7 @@ namespace TaskManagmentSystem.Controllers
             { 
                 return RedirectToAction("Show");
             }
-            return View("Edit", result);
+            return View(result.Data);
         }
         public IActionResult Delete() => View();
 
@@ -100,7 +100,8 @@ namespace TaskManagmentSystem.Controllers
             }
 
             await _timeLogService.UpdateAsync(request);
-            return RedirectToAction("Show");
+            return RedirectToAction("Show"
+                );
         }
 
         private async Task PopulateUserTasksAsync()

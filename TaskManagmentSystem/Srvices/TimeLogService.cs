@@ -20,10 +20,24 @@ namespace TaskManagmentSystem.Srvices
             return result;
         }
 
-        public async Task<OperationResult<TimeLog>> GetByIdAsync(int id)
+        public async Task<OperationResult<TimeLogViewModel>> GetByIdAsync(int id)
         {
             var result = await _timeLogRepository.GetByIdAsync(id);
-            return OperationResult<TimeLog>.Success(result);
+            if (result == null)
+            {
+                return OperationResult<TimeLogViewModel>.Failure("TimeLog not found");
+            }
+
+            var timeLogViewModel = new TimeLogViewModel
+            {
+                Id = result.Id,
+                Actul = result.Actul,
+                Allocat = result.Allocat,
+                Progress = result.Progress,
+                TaskId = result.TaskId,
+                UserId = result.UserId
+            };
+            return OperationResult<TimeLogViewModel>.Success(timeLogViewModel);
         }
 
         public async Task<OperationResult> CreateAsync(TimeLogViewModel timeLogFromRequest)
