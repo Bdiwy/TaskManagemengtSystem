@@ -52,24 +52,10 @@ namespace TaskManagmentSystem.Srvices
                 return result;
         }
 
-        public Task<OperationResult> DeleteAsync(int id)
+        public async Task<OperationResult> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<OperationResult<List<TimeLogViewModel>>> GetForUserAsync(string userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<OperationResult<List<TimeLogViewModel>>> GetForTaskAsync(int teamId, string userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<OperationResult<TimeLogViewModel>> GetForTeamShowAsync(int teamId, string userId)
-        {
-            throw new NotImplementedException();
+            await _timeLogRepository.DeleteAsync(id);
+            return OperationResult.Success();
         }
     }
 }

@@ -68,22 +68,14 @@ namespace TaskManagmentSystem.Repositories
 
         public Task<OperationResult> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
-        }
 
-        public Task<OperationResult<List<TimeLog>>> GetForUserAsync(string userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<OperationResult<List<TimeLog>>> GetForTaskAsync(int teamId, string userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<OperationResult<TimeLogViewModel>> GetForTeamShowAsync(int teamId, string userId)
-        {
-            throw new NotImplementedException();
+            var timeLog = _context.TimeLog.Find(id);
+            if (timeLog != null)
+            {
+                _context.TimeLog.Remove(timeLog);
+                _context.SaveChanges();
+            }
+            return Task.FromResult(OperationResult.Success());
         }
     }
 }

@@ -23,8 +23,6 @@ namespace TaskManagmentSystem.Controllers
             _context = context;
         }
 
-        public IActionResult Index() => View();
-        
         public async Task<IActionResult> Show()
         {
             var result = await _timeLogService.GetAllAsync();
@@ -100,6 +98,13 @@ namespace TaskManagmentSystem.Controllers
             await _timeLogService.UpdateAsync(request);
             return RedirectToAction("Show"
                 );
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Delete(int Id)
+        {
+            await _timeLogService.DeleteAsync(Id);
+            return RedirectToAction("Show");
         }
 
         private async Task PopulateUserTasksAsync()

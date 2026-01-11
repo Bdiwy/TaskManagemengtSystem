@@ -10,8 +10,5 @@ namespace TaskManagmentSystem.Repositories.Interfaces
         Task<OperationResult> CreateAsync(TimeLogViewModel timeLogViewModel);
         Task<OperationResult> UpdateAsync(TimeLogViewModel timeLogToUpdate);
         Task<OperationResult> DeleteAsync(int id);
-        Task<OperationResult<List<TimeLog>>> GetForUserAsync(string userId);
-        Task<OperationResult<List<TimeLog>>> GetForTaskAsync(int teamId, string userId);
-        Task<OperationResult<TimeLogViewModel>> GetForTeamShowAsync(int teamId, string userId);
     }
 }
