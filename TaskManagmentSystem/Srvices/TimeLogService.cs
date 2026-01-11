@@ -46,9 +46,10 @@ namespace TaskManagmentSystem.Srvices
             return result;
         }
 
-        public Task<OperationResult> UpdateAsync(TimeLogViewModel timeLogFromRequest)
+        public async Task<OperationResult> UpdateAsync(TimeLogViewModel timeLogFromRequest)
         {
-            throw new NotImplementedException();
+                var result = await _timeLogRepository.UpdateAsync(timeLogFromRequest);
+                return result;
         }
 
         public Task<OperationResult> DeleteAsync(int id)

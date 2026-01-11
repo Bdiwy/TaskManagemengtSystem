@@ -19,6 +19,8 @@ namespace TaskManagmentSystem.Repositories
                 Allocat = tl.Allocat,
                 Progress = tl.Progress,
                 TaskTitle = tl.Task.Title,
+                Id = tl.Id,
+                TaskId = tl.TaskId
             }).ToListAsync();
             return OperationResult<List<TimeLogViewModel>>.Success(result);
         }
@@ -54,6 +56,7 @@ namespace TaskManagmentSystem.Repositories
             timeLog.Allocat = timeLogToUpdate.Allocat;
             timeLog.Actul = timeLogToUpdate.Actul;
             timeLog.Progress = timeLogToUpdate.Progress;
+            timeLog.TaskId = timeLogToUpdate.TaskId;
             
             var result = await _context.SaveChangesAsync();
             

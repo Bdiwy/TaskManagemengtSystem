@@ -42,9 +42,6 @@ namespace TaskManagmentSystem.Controllers
             return View("Add");
         }
 
-
-        [HttpGet("{Id}")]
-
         public async Task<IActionResult> Edit(int Id)
         {
             var result = await _timeLogService.GetByIdAsync(Id);
@@ -52,6 +49,7 @@ namespace TaskManagmentSystem.Controllers
             { 
                 return RedirectToAction("Show");
             }
+            await PopulateUserTasksAsync();
             return View(result.Data);
         }
         public IActionResult Delete() => View();

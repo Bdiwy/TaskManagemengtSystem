@@ -36,10 +36,10 @@
             </div>
 
             <div class="add-card-body">
-                <form asp-controller="TimeLog" asp-action="Store" method="post" class="timelog-form">
+                <form asp-controller="TimeLog" asp-action="Update" method="post" class="timelog-form">
                     @Html.AntiForgeryToken()
                     <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
-
+                    <input asp-for="Id" type="hidden" />
                     <!-- Task Selection -->
                     <div class="form-section">
                         <div class="form-group">
@@ -49,7 +49,7 @@
                                 <span class="required-indicator">*</span>
                             </label>
                             <div class="select-wrapper">
-                                <select asp-for="TaskId" class="form-select" asp-items="ViewBag.TaskList" required>
+                                <select asp-for="TaskId" class="form-select" asp-items="ViewBag.TaskList"  required>
                                     <option value="">-- Select a Task --</option>
                                 </select>
                                 <div class="select-icon">
