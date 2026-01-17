@@ -1,19 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Drawing;
+using System.Linq;
+using System.Security.Claims;
 using TaskManagmentSystem.Helpers;
 using TaskManagmentSystem.Models;
 using TaskManagmentSystem.Repositories.Interfaces;
 using TaskManagmentSystem.ViewModels;
-using System.Security.Claims;
 
 namespace TaskManagmentSystem.Repositories
 {
     public class TimeLogRepository(AppDbContext _context , IHttpContextAccessor _httpContextAccessor) : ITimeLogRepository
     {
         private string? UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        public async Task<OperationResult<List<TimeLogViewModel>>> GetAllAsync()
+        public async Task<OperationResult<PaginatedResult<TimeLogViewModel>>> GetAllAsync(int page, int pageSize, int? filterWithTaskId)
         {
-            var result = await _context.TimeLog.Where(t => t.UserId == UserId).Select(tl => new TimeLogViewModel
+            var query = _context.TimeLog.Where(t => t.UserId == UserId);
+            if (filterWithTaskId is not null)
+                query = query.Where(t => t.TaskId == filterWithTaskId);
+            var result = await query.Select(tl => new TimeLogViewModel
             {
                 Actul = tl.Actul,
                 Allocat = tl.Allocat,
@@ -21,8 +25,8 @@ namespace TaskManagmentSystem.Repositories
                 TaskTitle = tl.Task.Title,
                 Id = tl.Id,
                 TaskId = tl.TaskId
-            }).ToListAsync();
-            return OperationResult<List<TimeLogViewModel>>.Success(result);
+            }).ToPaginatedListAsync(page, pageSize);
+            return OperationResult<PaginatedResult<TimeLogViewModel>>.Success(result);
         }
         public async Task<TimeLog> GetByIdAsync(int id)
         {

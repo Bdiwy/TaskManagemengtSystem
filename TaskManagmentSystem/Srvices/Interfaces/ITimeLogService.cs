@@ -6,7 +6,7 @@ namespace TaskManagmentSystem.Srvices.Interfaces
 {
     public interface ITimeLogService
     {
-        Task<OperationResult<List<TimeLogViewModel>>> GetAllAsync();
+        Task<OperationResult<PaginatedResult<TimeLogViewModel>>> GetAllAsync(int? page, int? pageSize, int? filterWithTask);
         Task<OperationResult<TimeLogViewModel>> GetByIdAsync(int id);
         Task<OperationResult> CreateAsync(TimeLogViewModel timeLogFromRequest);
         Task<OperationResult> UpdateAsync(TimeLogViewModel timeLogFromRequest);

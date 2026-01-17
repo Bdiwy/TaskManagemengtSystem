@@ -14,9 +14,12 @@ namespace TaskManagmentSystem.Srvices
             _timeLogRepository = timeLogRepository;
         }
 
-        public async Task<OperationResult<List<TimeLogViewModel>>> GetAllAsync()
+        public async Task<OperationResult<PaginatedResult<TimeLogViewModel>>> GetAllAsync(int? page, int? pageSize, int? filterWithTask)
         {
-            var result = await _timeLogRepository.GetAllAsync();
+
+            int pageNumber = page ?? 1;
+            int currentPageSize = pageSize ?? 4;
+            var result = await _timeLogRepository.GetAllAsync(pageNumber, currentPageSize, filterWithTask);
             return result;
         }
 

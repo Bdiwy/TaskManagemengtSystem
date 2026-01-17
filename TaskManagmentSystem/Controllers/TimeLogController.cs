@@ -23,10 +23,10 @@ namespace TaskManagmentSystem.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Show()
+        public async Task<IActionResult> Show(int? page, int? pageSize, int? filterWithTask )
         {
-            var result = await _timeLogService.GetAllAsync();
-
+            var result = await _timeLogService.GetAllAsync( page, pageSize, filterWithTask);
+                        await PopulateUserTasksAsync();
             if (!result.Succeeded)
                 return View();
             return View(result.Data);
