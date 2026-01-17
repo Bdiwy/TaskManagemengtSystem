@@ -15,6 +15,7 @@ using TaskManagmentSystem.Repositories.Interfaces;
 using TaskManagmentSystem.Srvices;
 using TaskManagmentSystem.Srvices.Interfaces;
 using TaskManagmentSystem.Srvicese;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace TaskManagmentSystem
 {
@@ -105,8 +106,12 @@ namespace TaskManagmentSystem
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
+            var provider = new FileExtensionContentTypeProvider();
+            provider.Mappings[".vue"] = "text/plain";
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ContentTypeProvider = provider
+            });
             app.UseHangfireDashboard();
 
             app.UseRouting();

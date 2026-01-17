@@ -13,6 +13,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    @* add vue framwork for support spa pages *@
+    <script src="~/lib/vue/vue.global.js"></script>
+    <script src="~/lib/vue/vue3-sfc-loader.js"></script>
+    <script src="~/lib/vue/vueHandler.js"></script>
+    
+    
     <!-- Top Navigation Bar -->
     <nav class="top-navbar">
         <div class="navbar-container">
@@ -247,7 +253,9 @@
     <!-- Main Content Area -->
     <main class="main-content" id="mainContent">
         @* <div class="content-wrapper"> *@
+            <div id="vueApp"></div>
             @RenderBody()
+
         @* </div> *@
     </main>
 
@@ -939,7 +947,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     <script>
         // Sidebar Toggle Functionality
         document.addEventListener('DOMContentLoaded', function() {
