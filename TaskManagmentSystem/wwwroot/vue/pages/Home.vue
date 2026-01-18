@@ -1,10 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 
-// داتا المستخدم
 const user = ref({
   name: 'Bdiwy',
-  avatar: '👤'
 })
 
 const stats = ref({
@@ -12,7 +10,7 @@ const stats = ref({
   timeLogged: '145h 30m',
   progress: 78,
   workspaces: 12,
-  userStreak: 9120
+  userStreak: 88
 })
 
 const isLoading = ref(false)
@@ -72,7 +70,6 @@ const streakInfo = computed(() => {
     
     <header class="welcome-header">
       <div class="user-info">
-        <span class="user-avatar">{{ user.avatar }}</span>
         <div class="welcome-text">
           <h1>{{ greeting }}, {{ user.name }}!</h1>
           <p>{{ todayDate }}</p>
