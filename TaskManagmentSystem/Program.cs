@@ -124,7 +124,7 @@ namespace TaskManagmentSystem
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Workspace}/{action=ShowAll}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.MapHub<NotificationsHub>("/hubs/taskNotification");
             app.Run();
