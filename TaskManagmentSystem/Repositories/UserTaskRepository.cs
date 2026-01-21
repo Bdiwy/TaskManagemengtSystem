@@ -20,6 +20,14 @@ namespace TaskManagmentSystem.Repositories
                 ? OperationResult.Success()
                 : OperationResult.Failure("Failed to create the task");
         }
+        
+        public async Task<List<UserTask?>> GetByUserIdAsync(string userId)
+        {
+            return await _context.UserTasks
+                .Where(ut => ut.CreaterId == userId)
+                .Select(ut => (UserTask?)ut)
+                .ToListAsync();
+        }
 
         public async Task<OperationResult> UpdateAsync(UserTask userTask, string? editorId)
         {

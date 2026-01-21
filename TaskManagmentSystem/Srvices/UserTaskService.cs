@@ -18,6 +18,11 @@ namespace TaskManagmentSystem.Srvices
             _notificationService = notificationService;
         }
 
+        public async Task<List<UserTask?>> GetByUserIdAsync(string userId)
+        {
+            return await _userTaskRepository.GetByUserIdAsync(userId);
+        }
+
         public async Task<OperationResult> CreateAsync(UserTaskAddViewModel request, string? userId)
         {
             if (userId is null)
