@@ -14,6 +14,8 @@ namespace TaskManagmentSystem.Models
         [Required]
         public int Allocat { get; set; }
 
+        public DateTime LogDate { get; set; } = DateTime.Now;
+        
         [Required]
         [ForeignKey("UserTask")]
         public int TaskId { get; set; }
