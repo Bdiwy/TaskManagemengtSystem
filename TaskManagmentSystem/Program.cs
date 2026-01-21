@@ -57,6 +57,8 @@ namespace TaskManagmentSystem
             });
             builder.Services.AddHangfireServer();
 
+            builder.Services.AddScoped<IUserTaskRepository,UserTaskRepository>();
+            builder.Services.AddScoped<IUserTaskService,UserTaskService>();
             builder.Services.AddScoped<INotificationFactory,NotificationFactory>();
             builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
             builder.Services.AddScoped<INotificationService, NotificationService>();
