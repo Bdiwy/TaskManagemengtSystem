@@ -10,6 +10,7 @@ namespace TaskManagmentSystem.ViewModels
         public int? TotalTasks { get; set; }
         public double? TotalTimeLoggedInHours { get; set; }
         public int? TotalWorkSpaces { get; set; }
-        public int? UserStreak { get; set; }
+        public int? UserCurrentStreak { get; set; }
+        public int? UserLongestStreak { get; set; }
         }
 }
