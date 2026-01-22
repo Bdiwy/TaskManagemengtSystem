@@ -60,5 +60,10 @@ namespace TaskManagmentSystem.Srvices
             await _timeLogRepository.DeleteAsync(id);
             return OperationResult.Success();
         }
+
+        public async Task<List<DateTime>> GetDistinctDatesByUserIdAsync(string userId)
+        {
+            return await _timeLogRepository.GetDistinctDatesByUserIdAsync(userId);
+        }
     }
 }

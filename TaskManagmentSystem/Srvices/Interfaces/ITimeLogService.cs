@@ -11,5 +11,6 @@ namespace TaskManagmentSystem.Srvices.Interfaces
         Task<OperationResult> CreateAsync(TimeLogViewModel timeLogFromRequest);
         Task<OperationResult> UpdateAsync(TimeLogViewModel timeLogFromRequest);
         Task<OperationResult> DeleteAsync(int id);
+        Task<List<DateTime>> GetDistinctDatesByUserIdAsync(string userId);
     }
 }

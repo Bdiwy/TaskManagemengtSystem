@@ -10,5 +10,6 @@ namespace TaskManagmentSystem.Repositories.Interfaces
         Task<OperationResult> CreateAsync(TimeLogViewModel timeLogViewModel);
         Task<OperationResult> UpdateAsync(TimeLogViewModel timeLogToUpdate);
         Task<OperationResult> DeleteAsync(int id);
+        Task<List<DateTime>> GetDistinctDatesByUserIdAsync(string userId);
     }
 }

@@ -81,5 +81,16 @@ namespace TaskManagmentSystem.Repositories
             }
             return Task.FromResult(OperationResult.Success());
         }
+
+        public async Task<List<DateTime>> GetDistinctDatesByUserIdAsync(string userId)
+        {
+            var dates = await _context.TimeLog
+                .Where(t => t.UserId == userId)
+                .Select(t => t.LogDate.Date)
+                .Distinct()
+                .OrderBy(d => d)
+                .ToListAsync();
+            return dates;
+        }
     }
 }
