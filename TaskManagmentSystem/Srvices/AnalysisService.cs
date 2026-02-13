@@ -1,18 +1,28 @@
 using TaskManagmentSystem.ViewModels;
 using TaskManagmentSystem.Srvices.Interfaces;
 using System.Security.Claims;
-using NuGet.Protocol;
-namespace TaskManagmentSystem.Services
+namespace TaskManagmentSystem.Srvices
 {
-    class AnalysisService(
-        IHttpContextAccessor _httpContextAccessor,
-        IWorkSpaceService _workSpaceService,
-        IUserTaskService _userTaskService,
-        ITimeLogService _timeLogService
-        )
+    public class AnalysisService : IAnalysisService
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWorkSpaceService _workSpaceService;
+        private readonly IUserTaskService _userTaskService;
+        private readonly ITimeLogService _timeLogService;
+
+        public AnalysisService(
+            IHttpContextAccessor httpContextAccessor,
+            IWorkSpaceService workSpaceService,
+            IUserTaskService userTaskService,
+            ITimeLogService timeLogService)
+        {
+            _httpContextAccessor = httpContextAccessor;
+            _workSpaceService = workSpaceService;
+            _userTaskService = userTaskService;
+            _timeLogService = timeLogService;
+        }
+
         private string? UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-        public record StreakResult(int current, int longest);
         public async Task<AnalysisViewModel?> GetAnalysisAsync()
         {
             var workSpacesResult = await _workSpaceService.GetForUserAsync(UserId!);

@@ -10,12 +10,18 @@ const user = ref({
   name: 'Bdiwy',
 })
 
+const prop = defineProps({
+  AnalysisData: {
+    type: Object,
+    required: true
+  }
+})
 const stats = ref({
-  tasks: 124,
-  timeLogged: '145h 30m',
+  tasks: prop.AnalysisData.TotalTasks,
+  timeLogged: `${prop.AnalysisData.TotalTimeLoggedInHours}h`,
   progress: 78,
-  workspaces: 12,
-  userStreak: 88
+  workspaces: prop.AnalysisData.TotalWorkSpaces,
+  userStreak: prop.AnalysisData.UserCurrentStreak
 })
 
 const isLoading = ref(false)
