@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagmentSystem.Models;
+using TaskManagmentSystem.ViewModels;
 using TaskManagmentSystem.Srvices.Interfaces;
 
 namespace TaskManagmentSystem.Controllers
@@ -16,9 +17,24 @@ namespace TaskManagmentSystem.Controllers
             _analysisService = analysisService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var analysis = _analysisService.GetAnalysisAsync().Result;
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View("Landing");
+            }
+            var analysis = await _analysisService.GetAnalysisAsync();
+            if (analysis == null)
+            {
+                analysis = new AnalysisViewModel 
+                { 
+                    TotalTasks = 0, 
+                    TotalTimeLoggedInHours = 0, 
+                    TotalWorkSpaces = 0, 
+                    UserCurrentStreak = 0,
+                    UserLongestStreak = 0
+                };
+            }
             return View(analysis);
         }
 

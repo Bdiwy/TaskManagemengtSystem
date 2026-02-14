@@ -2,10 +2,20 @@
     ViewData["Title"] = "Home Page";
 }
 
+@{
+    var analysisData = Model ?? new TaskManagmentSystem.ViewModels.AnalysisViewModel 
+    { 
+        TotalTasks = 0, 
+        TotalTimeLoggedInHours = 0, 
+        TotalWorkSpaces = 0, 
+        UserCurrentStreak = 0,
+        UserLongestStreak = 0
+    };
+}
 
 <script>
 initVuePage('Home.vue', { 
        userName: '@User.Identity.Name', 
-       AnalysisData: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model))
+       AnalysisData: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(analysisData))
    });   
 </script>

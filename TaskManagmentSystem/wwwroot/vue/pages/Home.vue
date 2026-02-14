@@ -13,18 +13,36 @@ const user = ref({
 const prop = defineProps({
   AnalysisData: {
     type: Object,
-    required: true
+    required: false,
+    default: () => ({
+      TotalTasks: 0,
+      TotalTimeLoggedInHours: 0,
+      TotalWorkSpaces: 0,
+      UserCurrentStreak: 0,
+      UserLongestStreak: 0
+    })
   }
 })
+
+// Ensure we always have a valid object
+const analysisData = prop.AnalysisData || {
+  TotalTasks: 0,
+  TotalTimeLoggedInHours: 0,
+  TotalWorkSpaces: 0,
+  UserCurrentStreak: 0,
+  UserLongestStreak: 0
+}
+
 const stats = ref({
-  tasks: prop.AnalysisData.TotalTasks,
-  timeLogged: `${prop.AnalysisData.TotalTimeLoggedInHours}h`,
+  tasks: analysisData.TotalTasks ?? 0,
+  timeLogged: `${analysisData.TotalTimeLoggedInHours || 0}h`,
   progress: 78,
-  workspaces: prop.AnalysisData.TotalWorkSpaces,
-  userStreak: prop.AnalysisData.UserCurrentStreak
+  workspaces: analysisData.TotalWorkSpaces ?? 0,
+  userStreak: analysisData.UserCurrentStreak ?? 0
 })
 
 const isLoading = ref(false)
+
 
 const { refreshData, greeting, streakInfo } = window.useHome(stats, isLoading)
 
